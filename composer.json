@@ -1,0 +1,52 @@
+{
+  "name": "spiw/php-helpers",
+  "description": "A Collection of useful php helper functions.",
+  "keywords": [
+    "php",
+    "helper",
+    "function",
+    "array",
+    "device",
+    "string",
+    "utilities",
+    "yaml"
+  ],
+  "type": "library",
+  "version": "0.2.1",
+  "require": {
+    "php": ">=5.6"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Fatih Yavuz",
+      "email": "fatihjy@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Spiw\\Helpers\\": "src/Helpers/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "require-dev": {
+
+  },
+  "config": {
+    "platform": {
+      "php": "5.6.0"
+    },
+    "optimize-autoloader": true
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "php -f prepare"
+    ],
+    "post-update-cmd": [
+      "php -f prepare"
+    ]
+  }
+}
