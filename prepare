@@ -35,6 +35,7 @@ function create_file($functions)
     foreach ($functions as $function) {
         fwrite($file, $function . PHP_EOL);
     }
+    fwrite($file,'load_env();' . PHP_EOL);
     fclose($file);
 }
 
@@ -50,6 +51,7 @@ foreach (glob($helpers_mask) as $filename) {
     require $filename;
     
     $className = class_name_from_path($filename);
+
     $relativePath = explode('src/', $filename);
     $relativePath = $relativePath[count($relativePath) - 1];
     $classPath = '\\' . $vendor . '\\' . str_replace('.php', '', str_replace('/', '\\', $relativePath));
@@ -59,6 +61,10 @@ foreach (glob($helpers_mask) as $filename) {
     if ($methods) {
         foreach ($methods as $method) {
             $functionName = strtolower($className) . '_' . strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $method));
+            if($className == 'Util') {
+                $functionName = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $method));
+            }
+
             $reflection = new ReflectionMethod($classPath . '::' . $method);
             $parameters = $reflection->getParameters();
             
