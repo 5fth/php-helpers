@@ -64,10 +64,19 @@ class Util
     }
 
 
-    public static function getItemFromObjectPath($path,$data)
+    public static function getItemFromObjectPath($path, $data)
     {
-        foreach (explode('.',$path) as $key) {
-            $data = $data[$key];
+        foreach (explode('.', $path) as $key) {
+            if (preg_match('/\[(\d+)\]/', $key, $matches)) {
+                //it has a number index like [0]
+                $data = $data[preg_replace('/\[(\d+)\]/', '', $key)][$matches[1]];
+            } elseif (preg_match('/\[[\'"](.*)[\'"]\]/', $key, $matches)) {
+                // it has string key ['hello world']
+                $data = $data[preg_replace('/[[\'"](.*)[\'"]\]/', '', $key)][$matches[1]];
+            } else {
+                $data = $data[$key];
+            }
+
         }
         return $data;
     }

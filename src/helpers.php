@@ -104,4 +104,11 @@ if(!function_exists("only_numbers")) {
     }
 }
 
+
+if(!function_exists("get_item_from_object_path")) {
+    function get_item_from_object_path($path,$data) {
+        return \Spiw\Helpers\Util::getItemFromObjectPath($path,$data);
+    }
+}
+
 load_env();
