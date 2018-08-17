@@ -1,0 +1,33 @@
+{
+  "name": "php-helpers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "husky": "^1.0.0-rc.13"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spiw/php-helpers.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spiw/php-helpers/issues"
+  },
+  "homepage": "https://github.com/spiw/php-helpers#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "php prepare"
+    }
+  }
+}
+
