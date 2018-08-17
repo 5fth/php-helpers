@@ -62,4 +62,15 @@ class Util
     {
         return preg_replace('/[^0-9]/', '', $str);
     }
+
+
+    public static function getItemFromObjectPath($path,$data)
+    {
+        foreach (explode('.',$path) as $key) {
+            $data = $data[$key];
+        }
+        return $data;
+    }
+
+
 }
