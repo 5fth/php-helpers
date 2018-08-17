@@ -4,7 +4,7 @@ namespace Spiw\Helpers;
 
 class Util
 {
-    
+
     public static function dd($arg)
     {
         if (\Spiw\Helpers\Is::cli()) {
@@ -16,7 +16,7 @@ class Util
         echo '</pre>';
         die;
     }
-    
+
     public static function pd($arg)
     {
         if (Is::cli()) {
@@ -28,7 +28,7 @@ class Util
         echo '</pre>';
         die;
     }
-    
+
     public static function consoleLog($arg)
     {
         if (!Is::json($arg)) {
@@ -38,23 +38,28 @@ class Util
         echo 'console.log(' . $arg . ')';
         echo '</script>';
     }
-    
+
     public static function loadEnv()
     {
         $Loader = new \josegonzalez\Dotenv\Loader(self::appPath() . '/.env');
         $Loader->parse();
         $Loader->toEnv();
     }
-    
+
     public static function env($key)
     {
         return $_ENV[$key] ?? null;
     }
-    
+
     public static function appPath()
     {
         $reflection = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
         $vendorDir = dirname(dirname($reflection->getFileName()));
         return dirname($vendorDir);
+    }
+
+    public static function onlyNumbers($str)
+    {
+        return preg_replace('/[^0-9]/', '', $str);
     }
 }
