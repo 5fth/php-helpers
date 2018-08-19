@@ -41,9 +41,11 @@ class Util
 
     public static function loadEnv()
     {
-        $Loader = new \josegonzalez\Dotenv\Loader(self::appPath() . '/.env');
-        $Loader->parse();
-        $Loader->toEnv();
+        if (file_exists(self::appPath() . '/.env')) {
+            $Loader = new \josegonzalez\Dotenv\Loader(self::appPath() . '/.env');
+            $Loader->parse();
+            $Loader->toEnv();
+        }
     }
 
     public static function env($key)
@@ -78,7 +80,7 @@ class Util
             }
 
         }
-        
+
         return $data;
     }
 
