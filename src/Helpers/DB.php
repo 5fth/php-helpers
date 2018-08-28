@@ -118,13 +118,12 @@ class DB
 
     private static function createSql($tableName, array $columns, $data = [], $dropColumns = true)
     {
-        // Defining column not exists function.
-        $sql = file_get_contents(dirname(__DIR__) . '/sql/drop_column_if_exists.sql') . PHP_EOL;
-
         // Creating table if not exists
-        $sql .= "CREATE TABLE IF NOT EXISTS ${tableName} ( id INT AUTO_INCREMENT PRIMARY KEY);" . PHP_EOL;
+        $sql = "CREATE TABLE IF NOT EXISTS ${tableName} ( id INT AUTO_INCREMENT PRIMARY KEY);" . PHP_EOL;
 
         if ($dropColumns) {
+            // Defining column not exists function.
+            $sql .= file_get_contents(dirname(__DIR__) . '/sql/drop_column_if_exists.sql') . PHP_EOL;
             // Dropping columns
             foreach ($columns as $name => $column) {
                 $sql .= "CALL drop_column_if_exists('${tableName}', '${name}');" . PHP_EOL;
