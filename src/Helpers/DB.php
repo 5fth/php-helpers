@@ -51,7 +51,12 @@ class DB
         $conn = new PDO("mysql:host={$config['host']};dbname={$config['db']}", $config['username'], $config['password']);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $columns = self::analyzeJson($json);
-        $sql = self::createSql($tableName, $columns, json_decode($json, true));
+
+        if (!isset($config['drop_columns'])) {
+            $config['drop_columns'] = true;
+        }
+
+        $sql = self::createSql($tableName, $columns, json_decode($json, true), $config['drop_columns']);
 
         if (!$sqlFile) {
             $sqlFile = tempnam(sys_get_temp_dir(), md5(microtime())) . '.sql';
@@ -67,7 +72,7 @@ class DB
             throw new \Exception('File does not exists!');
         }
 
-        if(!isset($config['mysql'])) {
+        if (!isset($config['mysql'])) {
             $config['mysql'] = 'mysql';
         }
 
@@ -111,7 +116,7 @@ class DB
         return $keys;
     }
 
-    private static function createSql($tableName, array $columns, $data = [])
+    private static function createSql($tableName, array $columns, $data = [], $dropColumns = true)
     {
         // Defining column not exists function.
         $sql = file_get_contents(dirname(__DIR__) . '/sql/drop_column_if_exists.sql') . PHP_EOL;
@@ -119,9 +124,11 @@ class DB
         // Creating table if not exists
         $sql .= "CREATE TABLE IF NOT EXISTS ${tableName} ( id INT AUTO_INCREMENT PRIMARY KEY);" . PHP_EOL;
 
-        // Dropping columns
-        foreach ($columns as $name => $column) {
-            $sql .= "CALL drop_column_if_exists('${tableName}', '${name}');" . PHP_EOL;
+        if ($dropColumns) {
+            // Dropping columns
+            foreach ($columns as $name => $column) {
+                $sql .= "CALL drop_column_if_exists('${tableName}', '${name}');" . PHP_EOL;
+            }
         }
 
 //        // Setting +20 charachter tolerance range.
@@ -138,6 +145,7 @@ class DB
                 if ($column['size'] <= 255) {
                     $columns[$name]['type'] = 'VARCHAR';
                 } elseif ($column['size'] <= 65535) {
+                    echo $column['size'];
                     $columns[$name]['type'] = 'TEXT';
                 } elseif ($column['size'] <= 16777215) {
                     $columns[$name]['type'] = 'MEDIUMTEXT';
@@ -150,7 +158,7 @@ class DB
         // Add column sql..
 
         foreach ($columns as $name => $column) {
-            $sql .= "ALTER TABLE {$tableName} ADD ${name} VARCHAR(${column['size']});" . PHP_EOL;
+            $sql .= "ALTER TABLE {$tableName} ADD ${name} ${column['type']}(${column['size']});" . PHP_EOL;
         }
 
         // Insert Statements..
@@ -166,6 +174,8 @@ class DB
 
             $sql .= 'INSERT INTO ' . $tableName . ' (' . implode(',', array_keys($item)) . ') VALUES (' . implode(',', array_values($item)) . ');' . PHP_EOL;
         }
+
+        dd($sql);
 
         return $sql;
     }
