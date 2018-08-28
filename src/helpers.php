@@ -43,8 +43,8 @@ if(!function_exists("db_replace")) {
 
 
 if(!function_exists("db_import_json")) {
-    function db_import_json($config,$tableName,$json) {
-        return \Spiw\Helpers\DB::importJson($config,$tableName,$json);
+    function db_import_json($config,$tableName,$json,$sqlFile) {
+        return \Spiw\Helpers\DB::importJson($config,$tableName,$json,$sqlFile);
     }
 }
 

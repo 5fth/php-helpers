@@ -42,21 +42,31 @@ class DB
     }
 
     // TODO: add is_json validation
-    public static function importJson($config, $tableName, $json)
+    public static function importJson($config, $tableName, $json, $sqlFile = null)
     {
+        if (!Is::json($json)) {
+            throw new \InvalidArgumentException('Json data is required!');
+        }
+
         $conn = new PDO("mysql:host={$config['host']};dbname={$config['db']}", $config['username'], $config['password']);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $columns = self::analyzeJson($json);
         $sql = self::createSql($tableName, $columns, json_decode($json, true));
-        $temp_file = tempnam(sys_get_temp_dir(), md5(microtime())) . '.sql';
-        echo $temp_file;
-        file_put_contents($temp_file, $sql);
-        return self::importSql($config, $temp_file);
+
+        if (!$sqlFile) {
+            $sqlFile = tempnam(sys_get_temp_dir(), md5(microtime())) . '.sql';
+        }
+        file_put_contents($sqlFile, $sql);
+        return self::importSql($config, $sqlFile);
 
     }
 
     public static function importSql($config, $filePath)
     {
+        if (!file_exists($filePath)) {
+            throw new \Exception('File does not exists!');
+        }
+
         $command = "mysql --user={$config['username']} --password='{$config['password']}' "
             . "-h {$config['host']} -D {$config['db']} < ";
 
@@ -71,6 +81,10 @@ class DB
      */
     private static function analyzeJson($json)
     {
+        if (!Is::json($json)) {
+            throw new \InvalidArgumentException('Provided data is not json!');
+        }
+
         $arr = json_decode($json, true);
         $keys = [];
         foreach ($arr as $item) {
