@@ -157,7 +157,9 @@ class DB
         // Add column sql..
 
         foreach ($columns as $name => $column) {
-            $sql .= "ALTER TABLE {$tableName} ADD ${name} ${column['type']}(${column['size']});" . PHP_EOL;
+            if ($name != 'id') {
+                $sql .= "ALTER TABLE {$tableName} ADD ${name} ${column['type']}(${column['size']});" . PHP_EOL;
+            }
         }
 
         // Insert Statements..
@@ -172,7 +174,7 @@ class DB
                 $item[$key] = "'$value'";
             }
 
-            $sql .= 'INSERT INTO ' . $tableName . ' (' . implode(',', array_keys($item)) . ') VALUES (' . implode(',', array_values($item)) . ');' . PHP_EOL;
+            $sql .= 'INSERT INTO ' . $tableName . ' (' . implode(',', array_keys($item)) . ') VALUES (' . addslashes(implode(',', array_values($item))) . ');' . PHP_EOL;
         }
 
 
