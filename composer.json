@@ -12,12 +12,13 @@
     "yaml"
   ],
   "type": "library",
-  "version": "0.0.8.3",
+  "version": "0.0.8.4",
   "require": {
     "josegonzalez/dotenv": "3.2.0",
     "php": ">=5.6",
     "ext-json": "*",
-    "ext-PDO": "*"
+    "ext-PDO": "*",
+    "predis/predis": "^2.0@dev"
   },
   "license": "MIT",
   "authors": [

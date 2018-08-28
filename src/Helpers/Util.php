@@ -2,6 +2,7 @@
 
 namespace Spiw\Helpers;
 
+use Predis\Client;
 use ReflectionFunction;
 
 class Util
@@ -85,6 +86,19 @@ class Util
 
         return $data;
     }
+
+    public static function cache($key, $callback)
+    {
+        $client = new Client();
+
+        if ($client->exists($key)) {
+            return $client->get($key);
+        }
+        $client->set($key, $callback());
+
+        return $client->get($key);
+    }
+
 
 
 }
