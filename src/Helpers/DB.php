@@ -145,7 +145,6 @@ class DB
                 if ($column['size'] <= 255) {
                     $columns[$name]['type'] = 'VARCHAR';
                 } elseif ($column['size'] <= 65535) {
-                    echo $column['size'];
                     $columns[$name]['type'] = 'TEXT';
                 } elseif ($column['size'] <= 16777215) {
                     $columns[$name]['type'] = 'MEDIUMTEXT';
