@@ -170,11 +170,11 @@ class DB
             }
 
             foreach ($item as $key => $value) {
-                $value = stripslashes($value);
+                $value = addslashes($value);
                 $item[$key] = "'$value'";
             }
 
-            $sql .= 'INSERT INTO ' . $tableName . ' (' . implode(',', array_keys($item)) . ') VALUES (' . addslashes(implode(',', array_values($item))) . ');' . PHP_EOL;
+            $sql .= 'INSERT INTO ' . $tableName . ' (' . implode(',', array_keys($item)) . ') VALUES (' . implode(',', array_values($item)) . ');' . PHP_EOL;
         }
 
 
