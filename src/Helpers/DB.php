@@ -41,6 +41,7 @@ class DB
         }
     }
 
+    // TODO: add is_json validation
     public static function importJson($config, $tableName, $json)
     {
         $conn = new PDO("mysql:host={$config['host']};dbname={$config['db']}", $config['username'], $config['password']);

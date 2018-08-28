@@ -42,6 +42,20 @@ if(!function_exists("db_replace")) {
 }
 
 
+if(!function_exists("db_import_json")) {
+    function db_import_json($config,$tableName,$json) {
+        return \Spiw\Helpers\DB::importJson($config,$tableName,$json);
+    }
+}
+
+
+if(!function_exists("db_import_sql")) {
+    function db_import_sql($config,$filePath) {
+        return \Spiw\Helpers\DB::importSql($config,$filePath);
+    }
+}
+
+
 if(!function_exists("is_json")) {
     function is_json($string) {
         return \Spiw\Helpers\Is::json($string);
