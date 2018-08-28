@@ -132,4 +132,11 @@ if(!function_exists("get_item_from_object_path")) {
     }
 }
 
+
+if(!function_exists("cache")) {
+    function cache($key,$callback) {
+        return \Spiw\Helpers\Util::cache($key,$callback);
+    }
+}
+
 if(!is_laravel()){load_env();}

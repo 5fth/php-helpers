@@ -168,13 +168,13 @@ class DB
             }
 
             foreach ($item as $key => $value) {
+                $value = stripslashes($value);
                 $item[$key] = "'$value'";
             }
 
             $sql .= 'INSERT INTO ' . $tableName . ' (' . implode(',', array_keys($item)) . ') VALUES (' . implode(',', array_values($item)) . ');' . PHP_EOL;
         }
 
-        dd($sql);
 
         return $sql;
     }
