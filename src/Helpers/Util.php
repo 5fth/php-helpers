@@ -2,6 +2,8 @@
 
 namespace Spiw\Helpers;
 
+use ReflectionFunction;
+
 class Util
 {
 

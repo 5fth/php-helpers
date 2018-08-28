@@ -56,6 +56,13 @@ if(!function_exists("is_cli")) {
 }
 
 
+if(!function_exists("is_laravel")) {
+    function is_laravel() {
+        return \Spiw\Helpers\Is::laravel();
+    }
+}
+
+
 if(!function_exists("dd")) {
     function dd($arg) {
         return \Spiw\Helpers\Util::dd($arg);
@@ -111,4 +118,4 @@ if(!function_exists("get_item_from_object_path")) {
     }
 }
 
-load_env();
+if(!is_laravel()){load_env();}

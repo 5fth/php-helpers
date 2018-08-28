@@ -12,10 +12,12 @@
     "yaml"
   ],
   "type": "library",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "require": {
     "josegonzalez/dotenv": "3.2.0",
-    "php": ">=5.6"
+    "php": ">=5.6",
+    "ext-json": "*",
+    "ext-PDO": "*"
   },
   "license": "MIT",
   "authors": [
@@ -34,7 +36,6 @@
     ]
   },
   "require-dev": {
-
   },
   "config": {
     "platform": {
@@ -44,13 +45,10 @@
   },
   "scripts": {
     "post-install-cmd": [
-
     ],
     "post-update-cmd": [
-
     ],
     "post-autoload-dump": [
-
     ]
   }
 }
