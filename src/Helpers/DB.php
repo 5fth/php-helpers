@@ -67,7 +67,11 @@ class DB
             throw new \Exception('File does not exists!');
         }
 
-        $command = "mysql --user={$config['username']} --password='{$config['password']}' "
+        if(!isset($config['mysql'])) {
+            $config['mysql'] = 'mysql';
+        }
+
+        $command = "${config['mysql']} --user={$config['username']} --password='{$config['password']}' "
             . "-h {$config['host']} -D {$config['db']} < ";
 
         return shell_exec($command . $filePath);
